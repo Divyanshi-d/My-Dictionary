@@ -1,6 +1,7 @@
 async function searchWord() {
   const word = document.getElementById("wordinput").value.trim();
   console.log('Word entered:', word);
+resultBox.innerHTML = "<p>Loading...</p>";
 
   const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
   
