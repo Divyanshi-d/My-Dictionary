@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body{
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Segoe UI', Roboto, sans-serif;
   padding:40px;
   background-color: #f2eded;
   display: flex;
@@ -61,5 +61,17 @@ p {
   margin-top: 0;
   color: #333;
 }
+@media (max-width: 600px) {
+  .search-box input {
+    width: 90%;
+    font-size: 16px;
+  }
+
+  .result-box {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
 
 
