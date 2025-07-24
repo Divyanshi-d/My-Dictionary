@@ -1,55 +1,37 @@
-async function searchWord() {
-  const word = document.getElementById("wordinput").value.trim();
-  console.log('Word entered:', word);
-resultBox.innerHTML = "<p>Loading...</p>";
+const input = document.getElementById("wordinput");
+const button = document.querySelector("button");
+const resultBox = document.getElementById("result");
 
-  const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
-  
+button.addEventListener("click", async () => {
+  const word = input.value.trim();
+  if (word === "") {
+    resultBox.innerHTML = "<p>Please enter a word</p>";
+    resultBox.style.display = "block";
+    return;
+  }
+
+  resultBox.innerHTML = "<p>Loading...</p>";
+  resultBox.style.display = "block";
+
   try {
-    const response = await fetch(url);
+    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
     const data = await response.json();
 
-    console.log(data);
+    if (data.title === "No Definitions Found") {
+      resultBox.innerHTML = `<p>No definition found for "${word}"</p>`;
+    } else {
+      const meaning = data[0].meanings[0].definitions[0].definition;
+      const example = data[0].meanings[0].definitions[0].example || "No example available.";
+      const phonetic = data[0].phonetics[0]?.text || "No phonetic available.";
 
-    const definition = data[0].meanings[0].definitions[0].definition;
-    const example = data[0].meanings[0].definitions[0].example || "No example available.";
-    const phonetic = data[0].phonetics[0]?.text || "No pronunciation found.";
-
-    const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = `
-      <h2>${word}</h2>
-      <p><strong>Pronunciation:</strong> ${phonetic}</p>
-      <p><strong>Meaning:</strong> ${definition}</p>
-      <p><strong>Example:</strong> ${example}</p>
-      <button onclick="speakWord('${word}')">🔊 Listen</button>
-    `;
-
-    resultDiv.style.display = "block";  // ✅ Show result only after fetch
-
+      resultBox.innerHTML = `
+        <p><strong>Word:</strong> ${word}</p>
+        <p><strong>Definition:</strong> ${meaning}</p>
+        <p><strong>Example:</strong> ${example}</p>
+        <p><strong>Phonetic:</strong> ${phonetic}</p>
+      `;
+    }
   } catch (error) {
-    console.log('Error:', error);
-    const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = `<p style="color:red;">Word not found. Please try again.</p>`;
-    resultDiv.style.display = "block";  // ✅ Also show error message
-  }
-}
-
-// 🔍 Hide result while user is typing
-document.getElementById("wordinput").addEventListener("input", function () {
-  document.getElementById("result").style.display = "none";
-});
-
-// 🔁 Search on pressing "Enter"
-document.getElementById("wordinput").addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    searchWord();
+    resultBox.innerHTML = "<p>Error fetching definition. Please try again.</p>";
   }
 });
-
-// 🔊 Voice pronunciation
-function speakWord(word) {
-  const utterance = new SpeechSynthesisUtterance(word);
-  utterance.lang = 'en-US';
-  speechSynthesis.cancel(); // Cancel any ongoing speech
-  speechSynthesis.speak(utterance);
-}
