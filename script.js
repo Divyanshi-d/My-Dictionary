@@ -1,37 +1,51 @@
-const input = document.getElementById("wordinput");
-const button = document.querySelector("button");
+const input = document.getElementById("input");
+const button = document.getElementById("btn");
 const resultBox = document.getElementById("result");
+
+input.focus();
+
+// Press "Enter" to search
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    button.click();
+  }
+});
 
 button.addEventListener("click", async () => {
   const word = input.value.trim();
+
   if (word === "") {
-    resultBox.innerHTML = "<p>Please enter a word</p>";
-    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p>Please enter a word.</p>";
     return;
   }
 
-  resultBox.innerHTML = "<p>Loading...</p>";
-  resultBox.style.display = "block";
+  resultBox.innerHTML = "<p>Loading...</p>"; // Show loading message
 
   try {
-    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+    const response = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Word not found");
+    }
+
     const data = await response.json();
 
-    if (data.title === "No Definitions Found") {
-      resultBox.innerHTML = `<p>No definition found for "${word}"</p>`;
-    } else {
-      const meaning = data[0].meanings[0].definitions[0].definition;
-      const example = data[0].meanings[0].definitions[0].example || "No example available.";
-      const phonetic = data[0].phonetics[0]?.text || "No phonetic available.";
+    const meaning = data[0].meanings[0].definitions[0].definition;
+    const example = data[0].meanings[0].definitions[0].example || "No example available.";
+    const partOfSpeech = data[0].meanings[0].partOfSpeech;
+    const phonetic = data[0].phonetic || "Not available";
 
-      resultBox.innerHTML = `
-        <p><strong>Word:</strong> ${word}</p>
-        <p><strong>Definition:</strong> ${meaning}</p>
-        <p><strong>Example:</strong> ${example}</p>
-        <p><strong>Phonetic:</strong> ${phonetic}</p>
-      `;
-    }
+    resultBox.innerHTML = `
+      <p><strong>Word:</strong> ${word}</p>
+      <p><strong>Part of Speech:</strong> ${partOfSpeech}</p>
+      <p><strong>Phonetic:</strong> ${phonetic}</p>
+      <p><strong>Meaning:</strong> ${meaning}</p>
+      <p><strong>Example:</strong> ${example}</p>
+    `;
   } catch (error) {
-    resultBox.innerHTML = "<p>Error fetching definition. Please try again.</p>";
+    resultBox.innerHTML = `<p style="color:red;">Error: ${error.message}. Please try again.</p>`;
+    console.error("Fetch error:", error);
   }
 });
