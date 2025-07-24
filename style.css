@@ -1,30 +1,34 @@
-*{
-  margin: 0px;
-  padding:0px;
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
-body{
+
+body {
   font-family: 'Segoe UI', Roboto, sans-serif;
-  padding:40px;
+  padding: 40px;
   background-color: #f2eded;
   display: flex;
-flex-direction: column;
-align-items: center;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
 
+h1 {
+  margin-bottom: 10px;
+  color: #333;
 }
-h1{
-  margin-bottom:10px;
-  color:#333;
-}
-#wordinput{
-  padding:10px;
+
+#wordinput {
+  padding: 10px;
   font-size: 16px;
   width: 250px;
   margin-bottom: 20px;
   background-color: #f2eded;
 }
-button{
-  padding:10px 20px;
+
+button {
+  padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   background-color: #0a7c87;
@@ -33,19 +37,24 @@ button{
   margin-left: 10px;
   border-radius: 4px;
 }
-#result{
+
+#result {
   display: none;
   margin-top: 30px;
-  background-color:#fcffff;
+  background-color: #fcffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  word-wrap: break-word;
 }
+
 p {
   margin-bottom: 12px;
   font-size: 18px;
   color: #444;
-}.main-box {
+}
+
+.main-box {
   border: 3px solid #aaa;
   border-radius: 12px;
   padding: 30px;
@@ -61,49 +70,40 @@ p {
   margin-top: 0;
   color: #333;
 }
+
+/* === Responsive Styles for Mobile === */
 @media screen and (max-width: 600px) {
   body {
     padding: 10px;
-  }
-
-  .container {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    font-size: 16px;
-  }
-
-  #result {
-    font-size: 16px;
-    padding: 10px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 8px 12px;
   }
 
   h1 {
     font-size: 20px;
     text-align: center;
   }
-}
 
-@media (max-width: 600px) {
-  .search-box input {
-    width: 90%;
+  #wordinput {
+    width: 100%;
     font-size: 16px;
   }
 
-  .result-box {
-    padding: 10px;
+  #result {
+    font-size: 16px;
+    padding: 12px;
+    margin-top: 12px;
+  }
+
+  button {
     font-size: 14px;
+    padding: 8px 12px;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
   }
 }
-
-
-
