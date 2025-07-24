@@ -61,6 +61,38 @@ p {
   margin-top: 0;
   color: #333;
 }
+@media screen and (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  #result {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  h1 {
+    font-size: 20px;
+    text-align: center;
+  }
+}
+
 @media (max-width: 600px) {
   .search-box input {
     width: 90%;
