@@ -23,32 +23,33 @@ async function searchWord() {
       <button onclick="speakWord('${word}')">🔊 Listen</button>
     `;
 
-    resultDiv.style.display = "block";  // ✅ Show result only after fetch
+    resultDiv.style.display = "block"; 
 
   } catch (error) {
     console.log('Error:', error);
     const resultDiv = document.getElementById("result");
     resultDiv.innerHTML = `<p style="color:red;">Word not found. Please try again.</p>`;
-    resultDiv.style.display = "block";  // ✅ Also show error message
+    resultDiv.style.display = "block";  
   }
 }
 
-// 🔍 Hide result while user is typing
+
 document.getElementById("wordinput").addEventListener("input", function () {
   document.getElementById("result").style.display = "none";
 });
 
-// 🔁 Search on pressing "Enter"
+
 document.getElementById("wordinput").addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     searchWord();
   }
 });
 
-// 🔊 Voice pronunciation
+
 function speakWord(word) {
   const utterance = new SpeechSynthesisUtterance(word);
   utterance.lang = 'en-US';
   speechSynthesis.cancel(); // Cancel any ongoing speech
   speechSynthesis.speak(utterance);
 }
+
